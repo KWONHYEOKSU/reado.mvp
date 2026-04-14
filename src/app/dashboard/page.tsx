@@ -49,14 +49,9 @@ export default function DashboardPage() {
         {/* 통계 카드 */}
         {!loading && totalCount > 0 && (
           <div className="grid grid-cols-3 gap-3">
-            <StatCard
-              value={totalCount}
-              label={t('dashboard.totalResults', { n: totalCount }).replace(String(totalCount), '')}
-              number={totalCount}
-              color="blue"
-            />
+            <StatCard value={String(totalCount)} label={t('dashboard.totalResults', { n: totalCount })} color="blue" />
             <StatCard value={`${passRate}%`} label={t('dashboard.passRate')} color="green" />
-            <StatCard value={`${avgScore}`} label={t('dashboard.avgScore')} suffix="점" color="navy" />
+            <StatCard value={`${avgScore}점`} label={t('dashboard.avgScore')} color="navy" />
           </div>
         )}
 
@@ -132,27 +127,12 @@ export default function DashboardPage() {
   )
 }
 
-function StatCard({
-  value, label, number, suffix, color,
-}: {
-  value: string | number
-  label: string
-  number?: number
-  suffix?: string
-  color: 'blue' | 'green' | 'navy'
-}) {
+function StatCard({ value, label, color }: { value: string; label: string; color: 'blue' | 'green' | 'navy' }) {
   const bgMap = { blue: 'bg-blue-50', green: 'bg-green-50', navy: 'bg-[#EEF2F8]' }
   const textMap = { blue: 'text-[#2563EB]', green: 'text-[#16A34A]', navy: 'text-[#1E3A5F]' }
-
   return (
     <div className={`${bgMap[color]} rounded-2xl p-4 text-center`}>
-      <div className={`text-2xl font-black ${textMap[color]}`}>
-        {number !== undefined ? number : value}
-        {suffix && <span className="text-base font-bold ml-0.5">{suffix}</span>}
-        {typeof value === 'string' && value.endsWith('%') && (
-          <span className="text-base font-bold">%</span>
-        )}
-      </div>
+      <div className={`text-2xl font-black ${textMap[color]}`}>{value}</div>
       <div className="text-xs text-gray-500 mt-1">{label}</div>
     </div>
   )

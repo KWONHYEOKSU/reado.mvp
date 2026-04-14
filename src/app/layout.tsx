@@ -15,10 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="min-h-screen bg-gray-50">
+      <body className="min-h-screen bg-[#F8FAFC]">
         <LanguageProvider>
           <HeaderClient />
-          <main className="max-w-2xl mx-auto px-4 py-6">{children}</main>
+          <main>{children}</main>
         </LanguageProvider>
       </body>
     </html>
