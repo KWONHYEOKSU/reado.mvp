@@ -6,25 +6,21 @@ import ImageUploader, { UploadedImage } from '@/components/ImageUploader'
 import ManualViewer from '@/components/ManualViewer'
 import BlockEditor from '@/components/BlockEditor'
 import { ManualBlock } from '@/lib/supabase'
+import { useLang } from '@/context/LanguageContext'
 
 type Step = 'upload' | 'generating' | 'editing' | 'saving'
 
-// AI 응답 텍스트를 블록 배열로 파싱
 function parseToBlocks(text: string): ManualBlock[] {
-  const lines = text.split('\n')
-  const blocks: ManualBlock[] = []
-
-  for (const line of lines) {
-    const trimmed = line.trim()
-    if (!trimmed) continue
-    blocks.push({ type: 'text', content: trimmed })
-  }
-
-  return blocks
+  return text
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((content) => ({ type: 'text', content }))
 }
 
 export default function NewManualPage() {
   const router = useRouter()
+  const { t, lang } = useLang()
 
   const [images, setImages] = useState<UploadedImage[]>([])
   const [step, setStep] = useState<Step>('upload')
@@ -35,7 +31,6 @@ export default function NewManualPage() {
 
   const canGenerate = images.length > 0 && step === 'upload'
 
-  // Step 2: Claude Vision 스트리밍 생성
   async function handleGenerate() {
     if (!canGenerate) return
     setError(null)
@@ -47,16 +42,14 @@ export default function NewManualPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          images: images.map((img) => ({
-            base64: img.base64,
-            mediaType: img.file.type,
-          })),
+          images: images.map((img) => ({ base64: img.base64, mediaType: img.file.type })),
+          lang,
         }),
       })
 
       if (!res.ok) {
         const data = await res.json()
-        throw new Error(data.error || '매뉴얼 생성에 실패했습니다.')
+        throw new Error(data.error || 'Generation failed.')
       }
 
       const reader = res.body?.getReader()
@@ -85,46 +78,36 @@ export default function NewManualPage() {
               fullText += parsed.text
               setGeneratedText(fullText)
             }
-          } catch (parseErr) {
-            if (parseErr instanceof SyntaxError) continue
-            throw parseErr
+          } catch (e) {
+            if (e instanceof SyntaxError) continue
+            throw e
           }
         }
       }
 
-      // 생성 완료 → 블록으로 변환, 편집 모드 진입
       const parsed = parseToBlocks(fullText)
-      setBlocks(parsed)
-
-      // 첫 번째 블록이 제목처럼 보이면 title로 분리
+      // 첫 줄이 제목처럼 보이면 title로 분리
       if (parsed.length > 0) {
         const first = parsed[0].content
-        // 짧고 ':'나 번호 없으면 제목으로 간주
-        if (first.length < 60 && !/^\d+[\.\)]/.test(first) && !first.includes(':')) {
+        if (first.length < 60 && !/^\d+[.)]\s/.test(first) && !first.includes(':')) {
           setTitle(first)
           setBlocks(parsed.slice(1))
+        } else {
+          setBlocks(parsed)
         }
+      } else {
+        setBlocks(parsed)
       }
-
       setStep('editing')
     } catch (err) {
-      const msg = err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.'
-      setError(msg)
+      setError(err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.')
       setStep('upload')
     }
   }
 
-  // Step 4: Supabase에 저장
   async function handleSave() {
-    if (!title.trim()) {
-      setError('제목을 입력해주세요.')
-      return
-    }
-    if (blocks.length === 0) {
-      setError('내용 블록이 하나 이상 있어야 합니다.')
-      return
-    }
-
+    if (!title.trim()) { setError(t('new.edit.titleLabel') + ' 을 입력해주세요.'); return }
+    if (blocks.length === 0) return
     setError(null)
     setStep('saving')
 
@@ -134,55 +117,43 @@ export default function NewManualPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, blocks }),
       })
-
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || '저장에 실패했습니다.')
-
       router.push(`/manual/${data.id}`)
     } catch (err) {
-      const msg = err instanceof Error ? err.message : '저장에 실패했습니다.'
-      setError(msg)
+      setError(err instanceof Error ? err.message : '저장에 실패했습니다.')
       setStep('editing')
     }
   }
 
   return (
     <div className="space-y-6 pb-10">
-      {/* 페이지 헤더 */}
       <div>
-        <h1 className="text-xl font-bold text-gray-900">새 매뉴얼 만들기</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          매장 사진을 업로드하면 AI가 업무 매뉴얼을 자동으로 작성해드려요
-        </p>
+        <h1 className="text-xl font-bold text-gray-900">{t('new.title')}</h1>
+        <p className="text-sm text-gray-500 mt-1">{t('new.subtitle')}</p>
       </div>
 
       {/* 진행 단계 */}
       <div className="flex items-center gap-2">
-        <StepBadge number={1} label="사진 업로드" active={step === 'upload'} done={step !== 'upload'} />
+        <StepBadge number={1} label={t('new.step1')} active={step === 'upload'} done={step !== 'upload'} />
         <div className="h-px flex-1 bg-gray-200" />
-        <StepBadge number={2} label="AI 생성" active={step === 'generating'} done={step === 'editing' || step === 'saving'} />
+        <StepBadge number={2} label={t('new.step2')} active={step === 'generating'} done={step === 'editing' || step === 'saving'} />
         <div className="h-px flex-1 bg-gray-200" />
-        <StepBadge number={3} label="편집 및 저장" active={step === 'editing' || step === 'saving'} done={false} />
+        <StepBadge number={3} label={t('new.step3')} active={step === 'editing' || step === 'saving'} done={false} />
       </div>
 
-      {/* ── Step 1+2: 업로드 & 생성 영역 ── */}
+      {/* Step 1+2 */}
       {(step === 'upload' || step === 'generating') && (
         <>
           <section>
             <h2 className="text-sm font-semibold text-gray-700 mb-3">
-              📸 매장 사진 선택
-              <span className="text-gray-400 font-normal ml-1">(최대 5장)</span>
+              {t('new.upload.title')}
+              <span className="text-gray-400 font-normal ml-1">{t('new.upload.hint')}</span>
             </h2>
-            <ImageUploader
-              images={images}
-              onImagesChange={setImages}
-              disabled={step === 'generating'}
-            />
+            <ImageUploader images={images} onImagesChange={setImages} disabled={step === 'generating'} />
           </section>
 
-          {step === 'generating' && (
-            <ManualViewer content={generatedText} isStreaming={true} />
-          )}
+          {step === 'generating' && <ManualViewer content={generatedText} isStreaming={true} />}
 
           {error && <ErrorBanner message={error} />}
 
@@ -196,7 +167,7 @@ export default function NewManualPage() {
                   : 'bg-gray-100 text-gray-400 cursor-not-allowed'
               }`}
             >
-              {images.length === 0 ? '사진을 먼저 선택해주세요' : `AI 매뉴얼 생성하기 (${images.length}장)`}
+              {images.length === 0 ? t('new.btn.empty') : t('new.btn.generate', { count: images.length })}
             </button>
           )}
 
@@ -206,59 +177,46 @@ export default function NewManualPage() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              AI가 매뉴얼을 작성하고 있어요...
+              {t('new.btn.generating')}
             </div>
           )}
         </>
       )}
 
-      {/* ── Step 3+4: 편집 & 저장 영역 ── */}
+      {/* Step 3+4 */}
       {(step === 'editing' || step === 'saving') && (
         <>
-          {/* 제목 입력 */}
           <section>
-            <label className="text-sm font-semibold text-gray-700 mb-2 block">
-              매뉴얼 제목
-            </label>
+            <label className="text-sm font-semibold text-gray-700 mb-2 block">{t('new.edit.titleLabel')}</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="예: 오픈 준비 매뉴얼, 포스 사용법..."
+              placeholder={t('new.edit.titlePlaceholder')}
               maxLength={100}
               className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
             />
           </section>
 
-          {/* 블록 편집기 */}
           <section>
             <div className="flex items-center justify-between mb-3">
-              <label className="text-sm font-semibold text-gray-700">매뉴얼 내용</label>
-              <span className="text-xs text-gray-400">{blocks.length}개 블록</span>
+              <label className="text-sm font-semibold text-gray-700">{t('new.edit.contentLabel')}</label>
+              <span className="text-xs text-gray-400">{t('new.edit.blockCount', { count: blocks.length })}</span>
             </div>
             <div className="bg-white rounded-2xl border border-gray-200 p-4">
-              <BlockEditor
-                blocks={blocks}
-                onChange={setBlocks}
-                uploadedImages={images}
-              />
+              <BlockEditor blocks={blocks} onChange={setBlocks} uploadedImages={images} />
             </div>
           </section>
 
           {error && <ErrorBanner message={error} />}
 
-          {/* 액션 버튼 */}
           <div className="flex gap-3">
             <button
-              onClick={() => {
-                setStep('upload')
-                setGeneratedText('')
-                setError(null)
-              }}
+              onClick={() => { setStep('upload'); setGeneratedText(''); setError(null) }}
               disabled={step === 'saving'}
               className="py-3.5 px-5 rounded-xl border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
             >
-              다시 생성
+              {t('new.btn.regenerate')}
             </button>
             <button
               onClick={handleSave}
@@ -271,11 +229,9 @@ export default function NewManualPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
-                  저장 중...
+                  {t('new.btn.saving')}
                 </>
-              ) : (
-                '매뉴얼 저장하기'
-              )}
+              ) : t('new.btn.save')}
             </button>
           </div>
         </>
@@ -284,11 +240,7 @@ export default function NewManualPage() {
   )
 }
 
-function StepBadge({
-  number, label, active, done,
-}: {
-  number: number; label: string; active: boolean; done: boolean
-}) {
+function StepBadge({ number, label, active, done }: { number: number; label: string; active: boolean; done: boolean }) {
   return (
     <div className="flex flex-col items-center gap-1">
       <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${

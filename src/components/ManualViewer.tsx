@@ -1,11 +1,15 @@
 'use client'
 
+import { useLang } from '@/context/LanguageContext'
+
 type ManualViewerProps = {
   content: string
   isStreaming?: boolean
 }
 
 export default function ManualViewer({ content, isStreaming = false }: ManualViewerProps) {
+  const { t } = useLang()
+
   if (!content && !isStreaming) return null
 
   return (
@@ -13,7 +17,7 @@ export default function ManualViewer({ content, isStreaming = false }: ManualVie
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-blue-500" />
-          <span className="text-sm font-medium text-gray-700">AI 생성 매뉴얼</span>
+          <span className="text-sm font-medium text-gray-700">{t('viewer.title')}</span>
         </div>
         {isStreaming && (
           <div className="flex items-center gap-1.5 text-xs text-blue-600">
@@ -22,15 +26,16 @@ export default function ManualViewer({ content, isStreaming = false }: ManualVie
               <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce [animation-delay:150ms]" />
               <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce [animation-delay:300ms]" />
             </div>
-            생성 중...
+            {t('viewer.generating')}
           </div>
         )}
       </div>
-
-      <div className="p-4 prose prose-sm max-w-none">
+      <div className="p-4">
         <pre className="whitespace-pre-wrap font-sans text-sm text-gray-800 leading-relaxed">
           {content}
-          {isStreaming && <span className="inline-block w-0.5 h-4 bg-blue-500 animate-pulse ml-0.5 align-middle" />}
+          {isStreaming && (
+            <span className="inline-block w-0.5 h-4 bg-blue-500 animate-pulse ml-0.5 align-middle" />
+          )}
         </pre>
       </div>
     </div>
