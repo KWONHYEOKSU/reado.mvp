@@ -1,8 +1,8 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
 export type ManualBlock = {
-  type: 'text' | 'image'
-  content: string
+  type: 'text' | 'image' | 'video'
+  content: string  // text: 본문 / image|video: URL
 }
 
 export type Manual = {
