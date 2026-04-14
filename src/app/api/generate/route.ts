@@ -21,9 +21,9 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    if (images.length > 5) {
+    if (images.length > 10) {
       return new Response(
-        JSON.stringify({ error: '최대 5장까지 분석할 수 있습니다.' }),
+        JSON.stringify({ error: '최대 10장까지 분석할 수 있습니다.' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       )
     }
@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
       GENERATE_SYSTEM_PROMPTS[lang as keyof typeof GENERATE_SYSTEM_PROMPTS] ??
       GENERATE_SYSTEM_PROMPTS['ko']
 
-    // Claude Vision 메시지 구성
     const imageContents: Anthropic.ImageBlockParam[] = images.map((img) => ({
       type: 'image',
       source: {
@@ -44,16 +43,17 @@ export async function POST(req: NextRequest) {
 
     const userText =
       lang === 'en'
-        ? `Analyze the above photo${images.length > 1 ? `s (${images.length} total)` : ''} and write the work manual.`
+        ? `Analyze the above photo${images.length > 1 ? `s (${images.length} total)` : ''} and write the work manual as JSON.`
         : lang === 'ja'
-        ? `上記の写真${images.length > 1 ? `（計${images.length}枚）` : ''}を分析して業務マニュアルを作成してください。`
+        ? `上記の写真${images.length > 1 ? `（計${images.length}枚）` : ''}を分析して業務マニュアルをJSONで作成してください。`
         : lang === 'zh'
-        ? `请分析以上照片${images.length > 1 ? `（共${images.length}张）` : ''}并编写工作手册。`
-        : `위 사진${images.length > 1 ? `들(총 ${images.length}장)` : ''}을 분석하여 업무 매뉴얼을 작성해주세요.`
+        ? `请分析以上照片${images.length > 1 ? `（共${images.length}张）` : ''}并以JSON格式编写工作手册。`
+        : `위 사진${images.length > 1 ? `들(총 ${images.length}장)` : ''}을 분석하여 업무 매뉴얼을 JSON으로 작성해주세요.`
 
-    const stream = await client.messages.stream({
+    // Non-streaming: collect full response then parse JSON
+    const response = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 2048,
+      max_tokens: 4096,
       system: systemPrompt,
       messages: [
         {
@@ -66,37 +66,27 @@ export async function POST(req: NextRequest) {
       ],
     })
 
-    const encoder = new TextEncoder()
-    const readable = new ReadableStream({
-      async start(controller) {
-        try {
-          for await (const chunk of stream) {
-            if (
-              chunk.type === 'content_block_delta' &&
-              chunk.delta.type === 'text_delta'
-            ) {
-              const data = JSON.stringify({ text: chunk.delta.text })
-              controller.enqueue(encoder.encode(`data: ${data}\n\n`))
-            }
-          }
-          controller.enqueue(encoder.encode('data: [DONE]\n\n'))
-          controller.close()
-        } catch (err) {
-          const msg = err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.'
-          controller.enqueue(
-            encoder.encode(`data: ${JSON.stringify({ error: msg })}\n\n`)
-          )
-          controller.close()
-        }
-      },
-    })
+    const rawText = response.content
+      .filter((b) => b.type === 'text')
+      .map((b) => (b as Anthropic.TextBlock).text)
+      .join('')
 
-    return new Response(readable, {
-      headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-      },
+    // JSON 파싱 (마크다운 코드블록 제거 후)
+    const jsonStr = rawText
+      .replace(/^```(?:json)?\s*/i, '')
+      .replace(/\s*```$/, '')
+      .trim()
+
+    let parsed: { sections: Array<{ section_title: string; content: string }> }
+    try {
+      parsed = JSON.parse(jsonStr)
+    } catch {
+      // JSON 파싱 실패 시 텍스트를 단일 섹션으로 래핑
+      parsed = { sections: [{ section_title: '매뉴얼', content: rawText }] }
+    }
+
+    return new Response(JSON.stringify(parsed), {
+      headers: { 'Content-Type': 'application/json' },
     })
   } catch (err) {
     const msg = err instanceof Error ? err.message : '서버 오류가 발생했습니다.'

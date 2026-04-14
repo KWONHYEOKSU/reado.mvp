@@ -108,6 +108,74 @@ const ko: Strings = {
   'lang.en': 'English',
   'lang.ja': '日本語',
   'lang.zh': '中文',
+
+  'nav.manuals': '매뉴얼 목록',
+  'nav.new': '매뉴얼 등록',
+  'nav.quiz': '테스트',
+  'nav.dashboard': '테스트 결과',
+
+  'detail.genQuiz': '테스트 생성',
+  'detail.toc': '목차',
+  'detail.section': '섹션',
+
+  'quiz.gen.title': '테스트 생성',
+  'quiz.gen.subtitle': '매뉴얼 내용을 바탕으로 AI가 테스트를 생성합니다',
+  'quiz.gen.count5': '5문제',
+  'quiz.gen.count10': '10문제',
+  'quiz.gen.countLabel': '문항 수 선택',
+  'quiz.gen.generate': 'AI로 테스트 생성',
+  'quiz.gen.generating': 'AI가 문제를 생성하고 있어요...',
+  'quiz.gen.save': '테스트 저장하기',
+  'quiz.gen.saving': '저장 중...',
+  'quiz.gen.back': '매뉴얼로 돌아가기',
+  'quiz.gen.question': '문제 {n}',
+  'quiz.gen.optionLabel': '선택지',
+  'quiz.gen.answerLabel': '정답',
+  'quiz.gen.explanationLabel': '해설',
+  'quiz.gen.deleteQ': '문제 삭제',
+  'quiz.gen.noManual': '매뉴얼을 불러올 수 없습니다.',
+  'quiz.gen.savedOk': '테스트가 저장되었습니다.',
+
+  'quiz.list.title': '테스트 목록',
+  'quiz.list.empty': '아직 생성된 테스트가 없습니다.',
+  'quiz.list.questions': '{n}문제',
+  'quiz.list.take': '테스트 응시',
+  'quiz.list.results': '결과 보기',
+
+  'quiz.take.title': '테스트',
+  'quiz.take.nameLabel': '이름을 입력하세요',
+  'quiz.take.namePlaceholder': '예: 홍길동',
+  'quiz.take.start': '테스트 시작',
+  'quiz.take.submit': '제출하기',
+  'quiz.take.submitting': '채점 중...',
+  'quiz.take.result': '결과',
+  'quiz.take.score': '{score}점',
+  'quiz.take.passed': '합격',
+  'quiz.take.failed': '불합격',
+  'quiz.take.passLine': '합격 기준: 60점 이상',
+  'quiz.take.correct': '정답',
+  'quiz.take.wrong': '오답',
+  'quiz.take.yourAnswer': '내 답변',
+  'quiz.take.correctAnswer': '정답',
+  'quiz.take.explanation': '해설',
+  'quiz.take.retry': '다시 풀기',
+  'quiz.take.backToList': '목록으로',
+  'quiz.take.of': '{current} / {total}',
+  'quiz.take.noQuiz': '테스트를 불러올 수 없습니다.',
+
+  'dashboard.title': '테스트 결과',
+  'dashboard.subtitle': '전체 테스트 결과를 확인하세요',
+  'dashboard.empty': '아직 제출된 결과가 없습니다.',
+  'dashboard.totalResults': '총 {n}건',
+  'dashboard.passRate': '합격률',
+  'dashboard.avgScore': '평균 점수',
+  'dashboard.col.name': '응시자',
+  'dashboard.col.quiz': '테스트',
+  'dashboard.col.score': '점수',
+  'dashboard.col.passed': '합격여부',
+  'dashboard.col.date': '날짜',
+  'dashboard.passed': '합격',
+  'dashboard.failed': '불합격',
 }
 
 const en: Strings = {
@@ -202,6 +270,74 @@ const en: Strings = {
   'lang.en': 'English',
   'lang.ja': '日本語',
   'lang.zh': '中文',
+
+  'nav.manuals': 'Manuals',
+  'nav.new': 'New Manual',
+  'nav.quiz': 'Tests',
+  'nav.dashboard': 'Results',
+
+  'detail.genQuiz': 'Create Test',
+  'detail.toc': 'Contents',
+  'detail.section': 'Section',
+
+  'quiz.gen.title': 'Create Test',
+  'quiz.gen.subtitle': 'AI generates test questions from manual content',
+  'quiz.gen.count5': '5 Questions',
+  'quiz.gen.count10': '10 Questions',
+  'quiz.gen.countLabel': 'Select question count',
+  'quiz.gen.generate': 'Generate with AI',
+  'quiz.gen.generating': 'AI is generating questions...',
+  'quiz.gen.save': 'Save Test',
+  'quiz.gen.saving': 'Saving...',
+  'quiz.gen.back': 'Back to manual',
+  'quiz.gen.question': 'Question {n}',
+  'quiz.gen.optionLabel': 'Option',
+  'quiz.gen.answerLabel': 'Answer',
+  'quiz.gen.explanationLabel': 'Explanation',
+  'quiz.gen.deleteQ': 'Delete question',
+  'quiz.gen.noManual': 'Could not load manual.',
+  'quiz.gen.savedOk': 'Test saved successfully.',
+
+  'quiz.list.title': 'Test List',
+  'quiz.list.empty': 'No tests created yet.',
+  'quiz.list.questions': '{n} questions',
+  'quiz.list.take': 'Take Test',
+  'quiz.list.results': 'View Results',
+
+  'quiz.take.title': 'Test',
+  'quiz.take.nameLabel': 'Enter your name',
+  'quiz.take.namePlaceholder': 'e.g. John Doe',
+  'quiz.take.start': 'Start Test',
+  'quiz.take.submit': 'Submit',
+  'quiz.take.submitting': 'Grading...',
+  'quiz.take.result': 'Result',
+  'quiz.take.score': '{score} pts',
+  'quiz.take.passed': 'Passed',
+  'quiz.take.failed': 'Failed',
+  'quiz.take.passLine': 'Pass score: 60 or above',
+  'quiz.take.correct': 'Correct',
+  'quiz.take.wrong': 'Wrong',
+  'quiz.take.yourAnswer': 'Your answer',
+  'quiz.take.correctAnswer': 'Correct answer',
+  'quiz.take.explanation': 'Explanation',
+  'quiz.take.retry': 'Try Again',
+  'quiz.take.backToList': 'Back to list',
+  'quiz.take.of': '{current} / {total}',
+  'quiz.take.noQuiz': 'Could not load test.',
+
+  'dashboard.title': 'Test Results',
+  'dashboard.subtitle': 'View all test results',
+  'dashboard.empty': 'No results yet.',
+  'dashboard.totalResults': '{n} total',
+  'dashboard.passRate': 'Pass Rate',
+  'dashboard.avgScore': 'Avg Score',
+  'dashboard.col.name': 'Name',
+  'dashboard.col.quiz': 'Test',
+  'dashboard.col.score': 'Score',
+  'dashboard.col.passed': 'Result',
+  'dashboard.col.date': 'Date',
+  'dashboard.passed': 'Passed',
+  'dashboard.failed': 'Failed',
 }
 
 const ja: Strings = {
@@ -296,6 +432,74 @@ const ja: Strings = {
   'lang.en': 'English',
   'lang.ja': '日本語',
   'lang.zh': '中文',
+
+  'nav.manuals': 'マニュアル一覧',
+  'nav.new': 'マニュアル登録',
+  'nav.quiz': 'テスト',
+  'nav.dashboard': 'テスト結果',
+
+  'detail.genQuiz': 'テスト作成',
+  'detail.toc': '目次',
+  'detail.section': 'セクション',
+
+  'quiz.gen.title': 'テスト作成',
+  'quiz.gen.subtitle': 'マニュアルの内容をもとにAIがテストを生成します',
+  'quiz.gen.count5': '5問',
+  'quiz.gen.count10': '10問',
+  'quiz.gen.countLabel': '問題数を選択',
+  'quiz.gen.generate': 'AIでテスト生成',
+  'quiz.gen.generating': 'AIが問題を生成中...',
+  'quiz.gen.save': 'テストを保存',
+  'quiz.gen.saving': '保存中...',
+  'quiz.gen.back': 'マニュアルに戻る',
+  'quiz.gen.question': '問題{n}',
+  'quiz.gen.optionLabel': '選択肢',
+  'quiz.gen.answerLabel': '正解',
+  'quiz.gen.explanationLabel': '解説',
+  'quiz.gen.deleteQ': '問題を削除',
+  'quiz.gen.noManual': 'マニュアルを読み込めません。',
+  'quiz.gen.savedOk': 'テストが保存されました。',
+
+  'quiz.list.title': 'テスト一覧',
+  'quiz.list.empty': 'テストがまだありません。',
+  'quiz.list.questions': '{n}問',
+  'quiz.list.take': 'テスト受験',
+  'quiz.list.results': '結果を見る',
+
+  'quiz.take.title': 'テスト',
+  'quiz.take.nameLabel': 'お名前を入力してください',
+  'quiz.take.namePlaceholder': '例：山田太郎',
+  'quiz.take.start': 'テスト開始',
+  'quiz.take.submit': '提出する',
+  'quiz.take.submitting': '採点中...',
+  'quiz.take.result': '結果',
+  'quiz.take.score': '{score}点',
+  'quiz.take.passed': '合格',
+  'quiz.take.failed': '不合格',
+  'quiz.take.passLine': '合格基準：60点以上',
+  'quiz.take.correct': '正解',
+  'quiz.take.wrong': '不正解',
+  'quiz.take.yourAnswer': 'あなたの回答',
+  'quiz.take.correctAnswer': '正解',
+  'quiz.take.explanation': '解説',
+  'quiz.take.retry': 'もう一度',
+  'quiz.take.backToList': '一覧に戻る',
+  'quiz.take.of': '{current} / {total}',
+  'quiz.take.noQuiz': 'テストを読み込めません。',
+
+  'dashboard.title': 'テスト結果',
+  'dashboard.subtitle': '全テスト結果を確認',
+  'dashboard.empty': 'まだ結果がありません。',
+  'dashboard.totalResults': '計{n}件',
+  'dashboard.passRate': '合格率',
+  'dashboard.avgScore': '平均点',
+  'dashboard.col.name': '受験者',
+  'dashboard.col.quiz': 'テスト',
+  'dashboard.col.score': '点数',
+  'dashboard.col.passed': '合否',
+  'dashboard.col.date': '日付',
+  'dashboard.passed': '合格',
+  'dashboard.failed': '不合格',
 }
 
 const zh: Strings = {
@@ -390,6 +594,74 @@ const zh: Strings = {
   'lang.en': 'English',
   'lang.ja': '日本語',
   'lang.zh': '中文',
+
+  'nav.manuals': '手册列表',
+  'nav.new': '注册手册',
+  'nav.quiz': '测试',
+  'nav.dashboard': '测试结果',
+
+  'detail.genQuiz': '创建测试',
+  'detail.toc': '目录',
+  'detail.section': '章节',
+
+  'quiz.gen.title': '创建测试',
+  'quiz.gen.subtitle': 'AI根据手册内容生成测试题',
+  'quiz.gen.count5': '5道题',
+  'quiz.gen.count10': '10道题',
+  'quiz.gen.countLabel': '选择题目数量',
+  'quiz.gen.generate': '用AI生成测试',
+  'quiz.gen.generating': 'AI正在生成题目...',
+  'quiz.gen.save': '保存测试',
+  'quiz.gen.saving': '保存中...',
+  'quiz.gen.back': '返回手册',
+  'quiz.gen.question': '第{n}题',
+  'quiz.gen.optionLabel': '选项',
+  'quiz.gen.answerLabel': '正确答案',
+  'quiz.gen.explanationLabel': '解析',
+  'quiz.gen.deleteQ': '删除题目',
+  'quiz.gen.noManual': '无法加载手册。',
+  'quiz.gen.savedOk': '测试保存成功。',
+
+  'quiz.list.title': '测试列表',
+  'quiz.list.empty': '还没有测试。',
+  'quiz.list.questions': '{n}道题',
+  'quiz.list.take': '参加测试',
+  'quiz.list.results': '查看结果',
+
+  'quiz.take.title': '测试',
+  'quiz.take.nameLabel': '请输入您的姓名',
+  'quiz.take.namePlaceholder': '例如：张三',
+  'quiz.take.start': '开始测试',
+  'quiz.take.submit': '提交',
+  'quiz.take.submitting': '评分中...',
+  'quiz.take.result': '结果',
+  'quiz.take.score': '{score}分',
+  'quiz.take.passed': '通过',
+  'quiz.take.failed': '未通过',
+  'quiz.take.passLine': '合格标准：60分以上',
+  'quiz.take.correct': '正确',
+  'quiz.take.wrong': '错误',
+  'quiz.take.yourAnswer': '您的答案',
+  'quiz.take.correctAnswer': '正确答案',
+  'quiz.take.explanation': '解析',
+  'quiz.take.retry': '重新作答',
+  'quiz.take.backToList': '返回列表',
+  'quiz.take.of': '{current} / {total}',
+  'quiz.take.noQuiz': '无法加载测试。',
+
+  'dashboard.title': '测试结果',
+  'dashboard.subtitle': '查看所有测试结果',
+  'dashboard.empty': '暂无结果。',
+  'dashboard.totalResults': '共{n}条',
+  'dashboard.passRate': '通过率',
+  'dashboard.avgScore': '平均分',
+  'dashboard.col.name': '参加者',
+  'dashboard.col.quiz': '测试',
+  'dashboard.col.score': '分数',
+  'dashboard.col.passed': '结果',
+  'dashboard.col.date': '日期',
+  'dashboard.passed': '通过',
+  'dashboard.failed': '未通过',
 }
 
 export const translations: Record<Lang, Strings> = { ko, en, ja, zh }
@@ -428,48 +700,76 @@ export function formatRelativeTime(iso: string, lang: Lang): string {
   return d.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
-/** generate API용 시스템 프롬프트 */
+/** generate API용 시스템 프롬프트 (JSON 구조화 출력) */
 export const GENERATE_SYSTEM_PROMPTS: Record<Lang, string> = {
   ko: `당신은 소규모 자영업장의 업무 매뉴얼 작성 전문가입니다.
 업로드된 매장 사진을 분석하여, 신규 아르바이트생이 이해하기 쉬운
 단계별 업무 매뉴얼을 한국어로 작성해주세요.
 
-출력 형식:
-- 매뉴얼 제목
-- 업무 단계 (번호 목록, 각 단계마다 구체적인 행동 지침)
-- 주의사항 (있는 경우)
+반드시 아래 JSON 형식으로만 응답하세요 (마크다운 코드블록 없이 순수 JSON):
+{
+  "sections": [
+    {
+      "section_title": "섹션 제목",
+      "content": "해당 섹션의 상세 내용 (여러 줄 가능)"
+    }
+  ]
+}
 
-간결하고 명확하게 작성하세요.`,
+- sections 배열에 3~7개의 섹션을 포함하세요
+- 각 섹션은 명확한 제목과 구체적인 행동 지침을 포함하세요
+- 주의사항이 있으면 별도 섹션으로 추가하세요`,
 
   en: `You are an expert in writing work manuals for small businesses.
 Analyze the uploaded store photos and write a clear, step-by-step work manual in English
 that new part-time employees can easily understand.
 
-Output format:
-- Manual title
-- Work steps (numbered list, with specific action instructions for each step)
-- Notes/warnings (if any)
+Respond ONLY with the following JSON format (no markdown code blocks, pure JSON):
+{
+  "sections": [
+    {
+      "section_title": "Section title",
+      "content": "Detailed content for this section (multiple lines allowed)"
+    }
+  ]
+}
 
-Keep it concise and clear.`,
+- Include 3-7 sections in the sections array
+- Each section should have a clear title and specific action instructions
+- Add a separate section for warnings/notes if needed`,
 
   ja: `あなたは小規模事業所の業務マニュアル作成の専門家です。
 アップロードされた店舗写真を分析して、新しいアルバイト従業員が
 理解しやすい日本語のステップ別業務マニュアルを作成してください。
 
-出力形式：
-- マニュアルタイトル
-- 業務ステップ（番号付きリスト、各ステップに具体的な行動指針）
-- 注意事項（ある場合）
+必ず以下のJSON形式のみで回答してください（マークダウンコードブロックなし、純粋なJSON）:
+{
+  "sections": [
+    {
+      "section_title": "セクションタイトル",
+      "content": "このセクションの詳細内容（複数行可）"
+    }
+  ]
+}
 
-簡潔かつ明確に記述してください。`,
+- sectionsの配列に3〜7つのセクションを含めてください
+- 各セクションは明確なタイトルと具体的な行動指針を含めてください
+- 注意事項がある場合は別セクションとして追加してください`,
 
   zh: `您是小型自营业务工作手册编写专家。
 请分析上传的门店照片，用中文编写一份新员工易于理解的分步骤工作手册。
 
-输出格式：
-- 手册标题
-- 工作步骤（编号列表，每个步骤有具体操作指南）
-- 注意事项（如有）
+请仅以以下JSON格式回复（不含markdown代码块，纯JSON）：
+{
+  "sections": [
+    {
+      "section_title": "章节标题",
+      "content": "本章节的详细内容（可多行）"
+    }
+  ]
+}
 
-请简洁清晰地编写。`,
+- sections数组中包含3-7个章节
+- 每个章节应有清晰的标题和具体的操作说明
+- 如有注意事项，请单独添加一个章节`,
 }

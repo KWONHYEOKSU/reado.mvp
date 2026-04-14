@@ -16,6 +16,13 @@ const config: Config = {
           600: '#2563eb',
           700: '#1d4ed8',
         },
+        brand: {
+          navy: '#1E3A5F',
+          blue: '#2563EB',
+          success: '#16A34A',
+          error: '#DC2626',
+          bg: '#F8FAFC',
+        },
       },
     },
   },

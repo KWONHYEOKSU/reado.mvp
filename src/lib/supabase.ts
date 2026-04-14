@@ -3,6 +3,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js'
 export type ManualBlock = {
   type: 'text' | 'image' | 'video'
   content: string  // text: 본문 / image|video: URL
+  section_title?: string
 }
 
 export type Manual = {
@@ -12,6 +13,31 @@ export type Manual = {
   owner_id: string
   created_at: string
   updated_at: string
+}
+
+export type QuizQuestion = {
+  question: string
+  options: [string, string, string, string]  // A, B, C, D
+  answer: number  // 0-3 index
+  explanation?: string
+}
+
+export type Quiz = {
+  id: string
+  manual_id: string
+  title: string
+  questions: QuizQuestion[]
+  created_at: string
+}
+
+export type QuizResult = {
+  id: string
+  quiz_id: string
+  taker_name: string
+  answers: number[]  // selected option indices
+  score: number  // 0-100
+  passed: boolean
+  created_at: string
 }
 
 // 빌드 시 환경변수 미설정 오류 방지를 위해 지연 초기화
