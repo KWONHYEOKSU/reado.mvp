@@ -294,14 +294,7 @@ export default function ManualDetailPage({ params }: { params: { id: string } })
               <div className="bg-white rounded-xl border border-gray-200 p-3 max-h-72 overflow-y-auto space-y-2 scrollbar-thin">
                 {translatedBlocks.map((block, i) => (
                   <div key={i}>
-                    {block.type === 'text' ? (
-                      <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">
-                        {block.content}
-                      </p>
-                    ) : (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={block.content} alt="" className="w-full rounded-lg max-h-40 object-contain" />
-                    )}
+                    <MediaBlock block={block} compact />
                   </div>
                 ))}
               </div>
@@ -340,12 +333,7 @@ export default function ManualDetailPage({ params }: { params: { id: string } })
           <div className="space-y-3">
             {blocks.map((block, i) => (
               <div key={i}>
-                {block.type === 'text' ? (
-                  <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">{block.content}</p>
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={block.content} alt="" className="w-full rounded-xl object-contain max-h-64" />
-                )}
+                <MediaBlock block={block} />
               </div>
             ))}
             {blocks.length === 0 && (
@@ -414,4 +402,40 @@ export default function ManualDetailPage({ params }: { params: { id: string } })
       )}
     </div>
   )
+}
+
+// ── 미디어 블록 렌더러 ──
+function MediaBlock({ block, compact = false }: { block: ManualBlock; compact?: boolean }) {
+  if (block.type === 'text') {
+    return (
+      <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">
+        {block.content}
+      </p>
+    )
+  }
+  if (block.type === 'image') {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={block.content}
+        alt=""
+        className={`w-full rounded-xl object-contain ${compact ? 'max-h-40' : 'max-h-72'}`}
+      />
+    )
+  }
+  if (block.type === 'video') {
+    return (
+      <div className="rounded-xl overflow-hidden bg-black">
+        <video
+          controls
+          preload="metadata"
+          playsInline
+          className={`w-full ${compact ? 'max-h-40' : 'max-h-72'}`}
+        >
+          <source src={block.content} />
+        </video>
+      </div>
+    )
+  }
+  return null
 }

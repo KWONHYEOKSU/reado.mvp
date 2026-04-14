@@ -85,8 +85,14 @@ const ko: Strings = {
 
   'block.addText': '텍스트 추가',
   'block.addImage': '이미지 추가',
+  'block.addVideo': '영상 추가',
   'block.empty': '블록을 추가해 매뉴얼을 작성하세요',
   'block.placeholder': '내용을 입력하세요...',
+  'block.uploading': '업로드 중...',
+  'block.uploadFailed': '업로드 실패 — 임시 저장됨',
+  'block.noSupabase': 'Supabase Storage 미설정으로 임시 저장됩니다. 새로고침 시 사라질 수 있습니다.',
+  'block.imageHint': 'JPG, PNG, WEBP, GIF · 최대 10MB',
+  'block.videoHint': 'MP4, MOV, WebM · 최대 100MB',
 
   'viewer.title': 'AI 생성 매뉴얼',
   'viewer.generating': '생성 중...',
@@ -173,8 +179,14 @@ const en: Strings = {
 
   'block.addText': 'Add Text',
   'block.addImage': 'Add Image',
+  'block.addVideo': 'Add Video',
   'block.empty': 'Add blocks to write your manual',
   'block.placeholder': 'Enter content...',
+  'block.uploading': 'Uploading...',
+  'block.uploadFailed': 'Upload failed — saved temporarily',
+  'block.noSupabase': 'Supabase Storage not configured. Media may be lost on refresh.',
+  'block.imageHint': 'JPG, PNG, WEBP, GIF · Max 10MB',
+  'block.videoHint': 'MP4, MOV, WebM · Max 100MB',
 
   'viewer.title': 'AI Generated Manual',
   'viewer.generating': 'Generating...',
@@ -261,8 +273,14 @@ const ja: Strings = {
 
   'block.addText': 'テキスト追加',
   'block.addImage': '画像追加',
+  'block.addVideo': '動画追加',
   'block.empty': 'ブロックを追加してマニュアルを作成してください',
   'block.placeholder': '内容を入力してください...',
+  'block.uploading': 'アップロード中...',
+  'block.uploadFailed': 'アップロード失敗 — 一時保存',
+  'block.noSupabase': 'Supabase Storage未設定のため一時保存です。再読み込みで消える場合があります。',
+  'block.imageHint': 'JPG, PNG, WEBP, GIF · 最大10MB',
+  'block.videoHint': 'MP4, MOV, WebM · 最大100MB',
 
   'viewer.title': 'AI生成マニュアル',
   'viewer.generating': '生成中...',
@@ -349,8 +367,14 @@ const zh: Strings = {
 
   'block.addText': '添加文字',
   'block.addImage': '添加图片',
+  'block.addVideo': '添加视频',
   'block.empty': '添加模块开始编写手册',
   'block.placeholder': '请输入内容...',
+  'block.uploading': '上传中...',
+  'block.uploadFailed': '上传失败 — 临时保存',
+  'block.noSupabase': 'Supabase Storage未配置，媒体文件临时保存，刷新后可能消失。',
+  'block.imageHint': 'JPG, PNG, WEBP, GIF · 最大10MB',
+  'block.videoHint': 'MP4, MOV, WebM · 最大100MB',
 
   'viewer.title': 'AI生成手册',
   'viewer.generating': '生成中...',
